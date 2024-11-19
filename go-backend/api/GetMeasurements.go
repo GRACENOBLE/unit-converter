@@ -1,13 +1,12 @@
 package api
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
 )
 
-func GetMeasurements() {
+func GetMeasurements() []byte {
 	url := "https://measurement-unit-converter.p.rapidapi.com/measurements"
 
 	req, _ := http.NewRequest("GET", url, nil)
@@ -23,6 +22,5 @@ func GetMeasurements() {
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
 
-	//fmt.Println(res)
-	fmt.Println(string(body))
+	return(body)
 }

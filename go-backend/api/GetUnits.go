@@ -1,13 +1,12 @@
 package api
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
 )
 
-func GetUnits() {
+func GetUnits() []byte {
 
 	url := "https://measurement-unit-converter.p.rapidapi.com/length/units"
 
@@ -25,6 +24,6 @@ func GetUnits() {
 	body, _ := io.ReadAll(res.Body)
 
 	//fmt.Println(res)
-	fmt.Println(string(body))
+	return (body)
 
 }
