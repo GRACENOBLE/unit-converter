@@ -1,9 +1,11 @@
-const page = async () => {
-  const data = await fetch(
-    "http://localhost:3333/convert?from=meters&to=feet&value=10"
-  ).then((res) => res.json());
-  console.log(data)
-  return <div></div>;
+import MainForm from "@/components/mainForm";
+
+const page = () => {
+  return (
+    <div className="grid place-items-center h-screen">
+      <MainForm />
+    </div>
+  );
 };
 
 export default page;
