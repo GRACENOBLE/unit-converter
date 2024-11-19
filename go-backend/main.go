@@ -10,16 +10,28 @@ import (
 func main() {
 	server := http.NewServeMux()
 	server.HandleFunc("/measurements", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
 		data := api.GetMeasurements()
 		w.Write([]byte(data))
 	})
-	
+
 	server.HandleFunc("/detailed-measurements", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
 		data := api.GetDetailedMeasurements()
 		w.Write([]byte(data))
 	})
 
 	server.HandleFunc("/units", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
 		data := api.GetUnits()
 		w.Write([]byte(data))
 	})
