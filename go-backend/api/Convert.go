@@ -7,9 +7,9 @@ import (
 	"net/http"
 )
 
-func Convert(from string, to string) {
+func Convert(value string, from string, to string) []byte {
 
-	url := fmt.Sprintf("https://measurement-unit-converter.p.rapidapi.com/length?value=1200&from=%s&to=%s", from, to)
+	url := fmt.Sprintf("https://measurement-unit-converter.p.rapidapi.com/length?value=%s&from=%s&to=%s", value, from, to)
 
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -24,7 +24,6 @@ func Convert(from string, to string) {
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
 
-	fmt.Println(res)
-	fmt.Println(string(body))
+	return (body)
 
 }
