@@ -14,8 +14,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { GetUnits } from "@/actions/actions";
 
-
-const MainForm = ({ setLoading }: { setLoading: any }) => {
+const MainForm = ({
+  setLoading,
+  setOutput,
+}: {
+  setLoading: any;
+  setOutput: any;
+}) => {
   const unitList = [
     "",
     "nm",
@@ -56,73 +61,88 @@ const MainForm = ({ setLoading }: { setLoading: any }) => {
   });
 
   // 2. Define a submit handler.
-  
-    const onSubmit = async(values: z.infer<typeof formSchema>) => {
-      try {
-        setLoading(true);
-        // Perform the action (assuming GetUnits is asynchronous)
-        await GetUnits(values);
-      } catch (error) {
-        console.error("Error occurred:", error);
-      } finally {
-        setLoading(false);
-      }
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setLoading(true);
+      // Perform the action (assuming GetUnits is asynchronous)
+      const result = await GetUnits(values);
+      setOutput(result);
+    } catch (error) {
+      console.error("Error occurred:", error);
+    } finally {
+      setLoading(false);
     }
- 
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="value"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Value</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>A quantity.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="from"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Unit</FormLabel>
-              <FormControl>
-                <Input placeholder="m,km,ft. e.t.c" {...field} />
-              </FormControl>
-              <FormDescription>From</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="to"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Unit</FormLabel>
-              <FormControl>
-                <Input
-                  //value={unit}
-                  placeholder="m,km,ft. e.t.c"
-                  // onChange={(e) => {
-                  //   setUnit(e.target.value);
-                  // }}
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>To</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="mb-8">
+          <FormField
+            control={form.control}
+            name="value"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Value</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="shadcn"
+                    {...field}
+                    className="w-40 text-center"
+                  />
+                </FormControl>
+                <FormDescription>A quantity.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div >
+        <div className="flex gap-8 mb-8">
+          <FormField
+            control={form.control}
+            name="from"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Unit</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="m,km,ft. e.t.c"
+                    {...field}
+                    className="w-40 text-center"
+                  />
+                </FormControl>
+                <FormDescription>From</FormDescription>
+                <FormMessage className="absolute max-w-96" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="to"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Unit</FormLabel>
+                <FormControl>
+                  <Input
+                    //value={unit}
+                    placeholder="m,km,ft. e.t.c"
+                    // onChange={(e) => {
+                    //   setUnit(e.target.value);
+                    // }}
+                    {...field}
+                    className="w-40 text-center"
+                  />
+                </FormControl>
+                <FormDescription>To</FormDescription>
+                <FormMessage className="absolute max-w-96" />
+              </FormItem>
+            )}
+          />
+        </div>
+        <Button type="submit" className="mt-4">
+          Submit
+        </Button>
       </form>
     </Form>
   );

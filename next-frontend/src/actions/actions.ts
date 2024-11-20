@@ -41,5 +41,5 @@ export const GetUnits = async ({
 `;
   const res = await fetch(url).then((res) => res.json());
 
-  console.log(res);
+  return(res.result);
 };
