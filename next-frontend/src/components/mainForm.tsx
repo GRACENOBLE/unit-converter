@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,7 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { GetUnits } from "@/actions/actions";
 
-const MainForm = () => {
+
+const MainForm = ({ setLoading }: { setLoading: any }) => {
   const unitList = [
     "",
     "nm",
@@ -57,11 +56,19 @@ const MainForm = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    GetUnits(values);
-  }
+  
+    const onSubmit = async(values: z.infer<typeof formSchema>) => {
+      try {
+        setLoading(true);
+        // Perform the action (assuming GetUnits is asynchronous)
+        await GetUnits(values);
+      } catch (error) {
+        console.error("Error occurred:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+ 
 
   return (
     <Form {...form}>
@@ -75,9 +82,7 @@ const MainForm = () => {
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
-              <FormDescription>
-                A quantity.
-              </FormDescription>
+              <FormDescription>A quantity.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -89,18 +94,9 @@ const MainForm = () => {
             <FormItem>
               <FormLabel>Unit</FormLabel>
               <FormControl>
-                <Input
-                  //value={unit}
-                  defaultValue={"km"}
-                  // onChange={(e) => {
-                  //   setUnit(e.target.value);
-                  // }}
-                  {...field}
-                />
+                <Input placeholder="m,km,ft. e.t.c" {...field} />
               </FormControl>
-              <FormDescription>
-               From
-              </FormDescription>
+              <FormDescription>From</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -114,16 +110,14 @@ const MainForm = () => {
               <FormControl>
                 <Input
                   //value={unit}
-                  defaultValue={"km"}
+                  placeholder="m,km,ft. e.t.c"
                   // onChange={(e) => {
                   //   setUnit(e.target.value);
                   // }}
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-               To
-              </FormDescription>
+              <FormDescription>To</FormDescription>
               <FormMessage />
             </FormItem>
           )}

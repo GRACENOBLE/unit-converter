@@ -37,5 +37,9 @@ export const GetUnits = async ({
     | "mi"
     | "nMi";
 }) => {
-  console.log(value, from, to);
+  const url = `http://localhost:3333/convert?from=${from}&to=${to}&value=${value}
+`;
+  const res = await fetch(url).then((res) => res.json());
+
+  console.log(res);
 };

@@ -1,10 +1,18 @@
+"use client"
+import Container from "@/components/Container";
 import MainForm from "@/components/mainForm";
+import Output from "@/components/output";
+import { useState } from "react";
 
 const page = () => {
+  const [loading, setLoading] = useState(false)
   return (
-    <div className="grid place-items-center h-screen">
-      <MainForm />
-    </div>
+    <Container>
+      <div className="grid grid-cols-2 place-items-center h-screen">
+        <MainForm setLoading={setLoading}/>
+        <Output loading={loading}/>
+      </div>
+    </Container>
   );
 };
 
